@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHADOWBLADE — Sistema de Acesso</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ 
+  <!-- ═══════════════════════════════════════════
+       TELA DE LOGIN
+  ═══════════════════════════════════════════ -->
+  <div id="login-screen">
+ 
+    <!-- Partículas de fundo -->
+    <div class="particles" id="particles"></div>
+ 
+    <!-- Grade de fundo estilo cyberpunk -->
+    <div class="grid-bg"></div>
+ 
+    <!-- Espada no canto superior esquerdo -->
+    <div class="sword-container" id="sword-container">
+      <svg class="sword-svg" id="sword-svg" viewBox="0 0 80 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lâmina principal -->
+        <polygon points="40,0 47,200 40,220 33,200" fill="url(#bladeGrad)" filter="url(#glow)"/>
+        <!-- Brilho da lâmina -->
+        <polygon points="40,10 43,180 40,195 37,180" fill="url(#shineGrad)" opacity="0.6"/>
+        <!-- Guarda (crossguard) -->
+        <rect x="10" y="200" width="60" height="10" rx="3" fill="url(#guardGrad)" filter="url(#glow)"/>
+        <rect x="8" y="198" width="8" height="14" rx="2" fill="#cc0000" filter="url(#glow)"/>
+        <rect x="64" y="198" width="8" height="14" rx="2" fill="#cc0000" filter="url(#glow)"/>
+        <!-- Cabo -->
+        <rect x="34" y="210" width="12" height="40" rx="3" fill="url(#handleGrad)"/>
+        <!-- Detalhes do cabo -->
+        <rect x="34" y="218" width="12" height="3" rx="1" fill="#ff0000" opacity="0.7"/>
+        <rect x="34" y="228" width="12" height="3" rx="1" fill="#ff0000" opacity="0.7"/>
+        <rect x="34" y="238" width="12" height="3" rx="1" fill="#ff0000" opacity="0.7"/>
+        <!-- Pomo -->
+        <ellipse cx="40" cy="253" rx="9" ry="7" fill="url(#pommelGrad)" filter="url(#glow)"/>
+        <!-- Runa na lâmina -->
+        <text x="40" y="100" text-anchor="middle" fill="#ff0000" font-size="14" opacity="0.5" font-family="serif">⚔</text>
+ 
+        <defs>
+          <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#888"/>
+            <stop offset="40%" stop-color="#ddd"/>
+            <stop offset="60%" stop-color="#fff"/>
+            <stop offset="100%" stop-color="#888"/>
+          </linearGradient>
+          <linearGradient id="shineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff2200" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#ff4400"/>
+            <stop offset="100%" stop-color="#ff2200" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="guardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#aaa"/>
+            <stop offset="50%" stop-color="#666"/>
+            <stop offset="100%" stop-color="#333"/>
+          </linearGradient>
+          <linearGradient id="handleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1a0000"/>
+            <stop offset="50%" stop-color="#440000"/>
+            <stop offset="100%" stop-color="#1a0000"/>
+          </linearGradient>
+          <linearGradient id="pommelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#aaa"/>
+            <stop offset="100%" stop-color="#444"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+ 
+    <!-- Logo / Título -->
+    <div class="login-logo">
+      <span class="logo-text">SHADOW<span class="logo-accent">BLADE</span></span>
+      <span class="logo-sub">SISTEMA DE ACESSO SEGURO</span>
+    </div>
+ 
+    <!-- Formulário de login -->
+    <div class="login-card" id="login-card">
+      <div class="card-border-top"></div>
+ 
+      <h2 class="card-title">AUTENTICAÇÃO</h2>
+      <p class="card-subtitle">Insira suas credenciais para continuar</p>
+ 
+      <div class="input-group">
+        <label for="username">USUÁRIO</label>
+        <div class="input-wrapper">
+          <span class="input-icon">&#9670;</span>
+          <input type="text" id="username" placeholder="Digite seu usuário" autocomplete="off"/>
+        </div>
+      </div>
+ 
+      <div class="input-group">
+        <label for="password">SENHA</label>
+        <div class="input-wrapper">
+          <span class="input-icon">&#9670;</span>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="off"/>
+        </div>
+      </div>
+ 
+      <!-- Mensagem de erro -->
+      <div class="error-msg" id="error-msg">Preencha todos os campos para continuar.</div>
+ 
+      <button class="login-btn" id="login-btn" onclick="handleLogin()">
+        <span class="btn-text">ENTRAR</span>
+        <span class="btn-shine"></span>
+      </button>
+ 
+      <p class="login-hint">Qualquer credencial é aceita para demonstração</p>
+      <div class="card-border-bottom"></div>
+    </div>
+ 
+    <!-- Texto de rodapé -->
+    <div class="login-footer">© 2026 SHADOWBLADE SYSTEMS — ACESSO RESTRITO</div>
+  </div>
+ 
+ 
+  <!-- ═══════════════════════════════════════════
+       OVERLAY DE ANIMAÇÃO DE CORTE
+  ═══════════════════════════════════════════ -->
+  <div id="cut-overlay">
+    <!-- Espada central (clonada via JS durante animação) -->
+    <div class="center-sword-wrap" id="center-sword-wrap"></div>
+ 
+    <!-- Rachadura luminosa -->
+    <div class="crack-line" id="crack-line">
+      <div class="crack-glow"></div>
+    </div>
+ 
+    <!-- Metades da tela que se separam -->
+    <div class="screen-half left-half" id="left-half"></div>
+    <div class="screen-half right-half" id="right-half"></div>
+  </div>
+ 
+ 
+  <!-- ═══════════════════════════════════════════
+       TELA PRINCIPAL (pós-login)
+  ═══════════════════════════════════════════ -->
+  <div id="main-screen">
+ 
+    <!-- Cabeçalho -->
+    <header class="main-header">
+      <div class="header-logo">
+        <svg width="28" height="28" viewBox="0 0 80 260" style="transform:rotate(180deg) scale(0.11); display:inline-block; vertical-align:middle;">
+          <polygon points="40,0 47,200 40,220 33,200" fill="url(#bladeGrad2)"/>
+          <rect x="10" y="200" width="60" height="10" rx="3" fill="#cc0000"/>
+          <rect x="34" y="210" width="12" height="40" rx="3" fill="#440000"/>
+          <ellipse cx="40" cy="253" rx="9" ry="7" fill="#888"/>
+          <defs>
+            <linearGradient id="bladeGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#888"/>
+              <stop offset="50%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#888"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>SHADOW<span style="color:#ff2200">BLADE</span></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#" class="nav-link active">Dashboard</a>
+        <a href="#" class="nav-link">Missões</a>
+        <a href="#" class="nav-link">Arsenal</a>
+        <a href="#" class="nav-link">Relatórios</a>
+      </nav>
+      <div class="header-actions">
+        <div class="user-badge">
+          <span class="user-avatar">⚔</span>
+          <span class="user-name" id="display-username">Guerreiro</span>
+        </div>
+        <button class="logout-btn" onclick="handleLogout()">SAIR</button>
+      </div>
+    </header>
+ 
+    <div class="main-layout">
+ 
+      <!-- Menu lateral -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <span class="sidebar-label">NAVEGAÇÃO</span>
+          <ul class="sidebar-menu">
+            <li class="menu-item active"><span class="menu-icon">⬡</span> Dashboard</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Operações</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Agentes</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Inteligência</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Arquivos</li>
+          </ul>
+        </div>
+        <div class="sidebar-section">
+          <span class="sidebar-label">SISTEMA</span>
+          <ul class="sidebar-menu">
+            <li class="menu-item"><span class="menu-icon">⬡</span> Configurações</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Segurança</li>
+            <li class="menu-item"><span class="menu-icon">⬡</span> Logs</li>
+          </ul>
+        </div>
+        <div class="sidebar-status">
+          <div class="status-dot"></div>
+          <span>SISTEMA ONLINE</span>
+        </div>
+      </aside>
+ 
+      <!-- Área principal -->
+      <main class="main-content">
+ 
+        <!-- Saudação -->
+        <div class="welcome-banner">
+          <h1 class="welcome-title">BEM-VINDO, <span id="welcome-name">GUERREIRO</span></h1>
+          <p class="welcome-sub">Nível de acesso: <span class="accent">CLASSIFICADO</span> — Última conexão: agora mesmo</p>
+        </div>
+ 
+        <!-- Cards de estatísticas -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">⚔</div>
+            <div class="stat-value" data-target="247">0</div>
+            <div class="stat-label">Missões Concluídas</div>
+            <div class="stat-bar"><div class="stat-fill" style="width:82%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🛡</div>
+            <div class="stat-value" data-target="99">0</div>
+            <div class="stat-label">Índice de Segurança</div>
+            <div class="stat-bar"><div class="stat-fill" style="width:99%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔮</div>
+            <div class="stat-value" data-target="13">0</div>
+            <div class="stat-label">Agentes Ativos</div>
+            <div class="stat-bar"><div class="stat-fill" style="width:65%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-value" data-target="3">0</div>
+            <div class="stat-label">Alertas Críticos</div>
+            <div class="stat-bar"><div class="stat-fill" style="width:15%; background:#ff0000"></div></div>
+          </div>
+        </div>
+ 
+        <!-- Seção de alertas e atividades -->
+        <div class="bottom-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">⚡ ALERTAS RECENTES</span>
+              <span class="panel-badge">3 novos</span>
+            </div>
+            <ul class="alert-list">
+              <li class="alert-item critical">
+                <span class="alert-dot"></span>
+                <div>
+                  <p class="alert-title">Tentativa de acesso não autorizado</p>
+                  <p class="alert-time">Há 2 minutos — Setor Norte</p>
+                </div>
+              </li>
+              <li class="alert-item warning">
+                <span class="alert-dot"></span>
+                <div>
+                  <p class="alert-title">Anomalia detectada no Servidor 7</p>
+                  <p class="alert-time">Há 15 minutos — Datacenter Alfa</p>
+                </div>
+              </li>
+              <li class="alert-item info">
+                <span class="alert-dot"></span>
+                <div>
+                  <p class="alert-title">Atualização de protocolo concluída</p>
+                  <p class="alert-time">Há 1 hora — Sistema Global</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+ 
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">⬡ ATIVIDADE DO SISTEMA</span>
+            </div>
+            <div class="activity-chart">
+              <!-- Barras animadas do gráfico -->
+              <div class="chart-bars" id="chart-bars"></div>
+              <div class="chart-labels">
+                <span>Seg</span><span>Ter</span><span>Qua</span>
+                <span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+      </main>
+    </div>
+  </div>
+ 
+  <script src="script.js"></script>
+</body>
+</html>
+ 
